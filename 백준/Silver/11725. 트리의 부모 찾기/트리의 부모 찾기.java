@@ -1,14 +1,12 @@
 import java.util.*;
 
 public class Main {
-    static Map<Integer,Integer> map;
     static ArrayList<ArrayList<Integer>> arr;
     static boolean[] visited;
     static int[] parents;
     public static void main(String[] args)  {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        map = new HashMap<>();
         arr = new ArrayList<>();
         visited = new boolean[n+1];
         parents = new int[n+1];
