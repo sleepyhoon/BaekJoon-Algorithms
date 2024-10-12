@@ -9,7 +9,9 @@ public class Main {
         ArrayList<String> list = new ArrayList<>();
         double count = 0;
         String s;
-        while ((s = br.readLine()) != null) {
+        while (true) {
+            s = br.readLine();
+            if(s == null || s.isEmpty()) break;
             map.put(s,map.getOrDefault(s,0) + 1);
             if(!list.contains(s)) list.add(s);
             count++;
