@@ -3,53 +3,51 @@ import java.util.*;
 
 class Main {
     static int n;
-    static char[][] arr;
+    static int[][] dist;
     static boolean[] visited;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         n = Integer.parseInt(br.readLine());
-        arr = new char[n][n];
         visited = new boolean[n];
+        dist = new int[n][n];
 
-        for(int i=0;i<n;i++){
+
+
+        for (int i = 0; i < n; i++) {
             String string = br.readLine();
-            for(int j=0;j<string.length();j++){
-                arr[i][j] = string.charAt(j);
+            for (int j = 0; j < string.length(); j++) {
+                if(string.charAt(j) == 'Y') {
+                    dist[i][j] = 1;
+                }
+                else {
+                    dist[i][j] = 100;
+                }
             }
         }
 
-        int answer = Integer.MIN_VALUE;
+        for(int k=0;k<n;k++){
+            for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++) {
+                    if(i==j) continue;
+                    dist[i][j] = Math.min(dist[i][j],dist[i][k]+dist[k][j]);
+                }
+            }
+        }
+
+        int answer = 0;
 
         for(int i=0;i<n;i++){
-            Queue<Integer> q = new ArrayDeque<>();
-            q.offer(i);
-            visited[i] = true;
-            int depth = 0;
             int count = 0;
-
-            while(depth < 2) {
-
-                int size = q.size();
-
-                for(int j=0;j<size;j++) {
-                    Integer poll = q.poll();
-
-                    for(int k=0;k<n;k++){
-                        if (arr[poll][k] == 'Y' && !visited[k]) {
-                            q.offer(k);
-                            visited[k] = true;
-                            count++;
-                        }
-                    }
-                }
-                depth++;
+            for(int j=0;j<n;j++){
+                if(dist[i][j] == 1 || dist[i][j] == 2)
+                    count++;
             }
             answer = Math.max(answer,count);
-            Arrays.fill(visited,false);
         }
 
         System.out.println(answer);
+
     }
 
 
