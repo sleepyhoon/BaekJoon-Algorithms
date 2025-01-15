@@ -21,12 +21,7 @@ public class Main {
             int to = Integer.parseInt(st.nextToken());
             union(from,to);
         }
-        if (parents[1] < 0) {
-            System.out.println(-1*parents[1] -1);
-        }
-        else {
-            System.out.println(-1*parents[findParent(1)] - 1);
-        }
+        System.out.println(-1*parents[findParent(1)] - 1);
     }
 
     private static int findParent(int x) {
