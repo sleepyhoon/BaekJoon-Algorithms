@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -99,14 +100,13 @@ public class Main {
         pq.offer(new Node(1, 0));
         while (!pq.isEmpty()) {
             Node poll = pq.poll();
-            visited[poll.index] = true;
 
             if (dist[poll.index] < poll.cost) {
                 continue;
             }
             for (int i = 0; i < graph.get(poll.index).size(); i++) {
                 Node node = graph.get(poll.index).get(i);
-                if (visited[node.index] || !node.possible) {
+                if (!node.possible) {
                     continue;
                 }
                 if (dist[node.index] > dist[poll.index] + node.cost) {
