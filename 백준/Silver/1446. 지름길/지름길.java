@@ -33,24 +33,16 @@ public class Main {
             int cost = Integer.parseInt(st.nextToken());
             arr[i] = new Road(from, to, cost);
         }
-
-        Arrays.sort(arr, (o1, o2) -> {
-            if (o1.to == o2.to) {
-                return o1.from - o2.from;
-            } else {
-                return o1.to - o2.to;
-            }
-        });
-        Arrays.fill(dp,Integer.MAX_VALUE);
+        Arrays.fill(dp, Integer.MAX_VALUE);
         dp[0] = 0;
         for (int i = 1; i <= d; i++) {
             for (Road road : arr) {
                 if (i == road.to) {
-                    dp[i] = Math.min(Math.min(dp[i-1]+1,dp[i]), dp[road.from] + road.cost);
+                    dp[i] = Math.min(Math.min(dp[i - 1] + 1, dp[i]), dp[road.from] + road.cost);
                 }
             }
-            if(dp[i] == Integer.MAX_VALUE) {
-                dp[i] = dp[i-1] +1;
+            if (dp[i] == Integer.MAX_VALUE) {
+                dp[i] = dp[i - 1] + 1;
             }
         }
         System.out.println(dp[d]);
