@@ -1,15 +1,16 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
     static List<List<Integer>> graph = new ArrayList<>();
-    static int[][] dist;
-
+    static int[] arr;
+    static List<Integer> answer = new ArrayList<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -19,22 +20,45 @@ public class Main {
         for (int i = 0; i <= n; i++) {
             graph.add(new ArrayList<>());
         }
-        dist = new int[n + 1][n + 1];
-        for (int i = 1; i <= n; i++) {
-            Arrays.fill(dist[i], Integer.MAX_VALUE / 2);
-        }
+        arr = new int[n + 1];
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             int from = Integer.parseInt(st.nextToken());
             int to = Integer.parseInt(st.nextToken());
-            dist[from][to] = 1;
             graph.get(from).add(to);
+            arr[to]++;
+        }
+        Queue<Integer> q = new ArrayDeque<>();
+        for(int i=0;i<arr.length;i++){
+            if(arr[i] == 0)
+                q.offer(i);
         }
 
-        for (int k = 1; k <= n; k++) {
-            for (int i = 1; i<= n; i++) {
-                for (int j = 1; j <= n; j++) {
-                    dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
+        while(!q.isEmpty()) {
+            int value = q.poll();
+            answer.add(value);
+            for(int i=0;i<graph.get(value).size();i++){
+                Integer i1 = graph.get(value).get(i);
+                arr[i1]--;
+                if(arr[i1] == 0) {
+                    q.offer(i1);
+                }
+            }
+        }
+
+        // reachable[a][b] = true 이면 a->b 순이라는 의미임.
+        boolean[][] reacheable = new boolean[n+1][n+1];
+
+        for(int i=answer.size()-1;i>=0;i--){
+            Integer i1 = answer.get(i);
+
+            reacheable[i1][i1] = true;
+
+            for(int value : graph.get(i1)) {
+                for(int j=1;j<=n;j++){
+                    if(reacheable[value][j]) {
+                        reacheable[i1][j] = true;
+                    }
                 }
             }
         }
@@ -45,14 +69,17 @@ public class Main {
             int from = Integer.parseInt(st.nextToken());
             int to = Integer.parseInt(st.nextToken());
 
-            if (dist[from][to] != Integer.MAX_VALUE / 2) {
+            if(reacheable[from][to]) {
                 sb.append(-1).append("\n");
-            } else if (dist[from][to] == Integer.MAX_VALUE / 2 && dist[to][from] != Integer.MAX_VALUE / 2) {
+            }
+            else if (reacheable[to][from]) {
                 sb.append(1).append("\n");
-            } else if (dist[from][to] == Integer.MAX_VALUE / 2 && dist[to][from] == Integer.MAX_VALUE / 2) {
+            }
+            else {
                 sb.append(0).append("\n");
             }
         }
+
         System.out.println(sb);
     }
 }
