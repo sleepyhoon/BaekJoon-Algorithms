@@ -1,8 +1,8 @@
 class Solution {
     public int solution(String s) {
         int length = 1;
-        int minLength = 10000;
-        while (length <= s.length()) {
+        int minLength = s.length();
+        while (length < s.length()) {
             int start = 0;
             String previous = "";
             int count = 1;
