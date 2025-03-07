@@ -1,3 +1,5 @@
+# ITEM_TREE 의 PARENT_ITEM_ID 안에 들어 있는 id를 가진 
+
 with T as 
 (select T.ITEM_ID
 from ITEM_TREE T, ITEM_INFO I
