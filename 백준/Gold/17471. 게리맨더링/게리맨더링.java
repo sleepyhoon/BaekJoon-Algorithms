@@ -37,7 +37,6 @@ public class Main {
             for (int j = 0; j < m; j++) {
                 int element = Integer.parseInt(st.nextToken());
                 graph.get(i).add(element);
-                union(i, element);
             }
         }
 
@@ -112,21 +111,6 @@ public class Main {
         }
     }
 
-    private static boolean isImpossible(List<Integer> tmp) {
-        int parent = 0;
-        for (Integer i : tmp) {
-            if (parents[i] < 0) {
-                continue;
-            }
-            if(parent == 0) {
-                parent = parents[i];
-            } else if (parent != parents[i]) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private static List<Integer> initList(List<Integer> tmp) {
         List<Integer> list = new ArrayList<>();
         for (int i = 1; i < n + 1; i++) {
@@ -136,34 +120,5 @@ public class Main {
             list.add(i);
         }
         return list;
-    }
-
-    private static int findParents(int x) {
-        if (parents[x] < 0) {
-            return x;
-        }
-        return parents[x] = findParents(parents[x]);
-    }
-
-    private static void union(int a, int b) {
-        int pa = findParents(a);
-        int pb = findParents(b);
-
-        if (pa == pb) {
-            return;
-        }
-
-        if (heights[pa] < heights[pb]) {
-            int tmp = pa;
-            pa = pb;
-            pb = tmp;
-        }
-
-        if (heights[pa] == heights[pb]) {
-            heights[pa]++;
-        }
-        parents[pa] += parents[pb];
-        parents[pb] = pa;
-        heights[pb] = 0;
     }
 }
