@@ -7,7 +7,7 @@ class Solution {
         for (int i = 0; i < length; i++) {
             char c = name.charAt(i);
             int move = Math.min(c - 'A', 'Z' - c + 1);
-            answer += move;
+            answer += move; 
         }
 
         // 2. 좌우 커서 이동 최적화
@@ -21,8 +21,8 @@ class Solution {
             }
 
             // 좌로 갔다가 돌아오는 경우, 우로 갔다가 돌아오는 경우 중 최소
-            int leftThenRight = i + length - next + Math.min(i, length - next);
-            move = Math.min(move, leftThenRight);
+            move = Math.min(move, (i * 2) + length - next);
+            move = Math.min(move, (length - next) * 2 + i);
         }
 
         answer += move;
