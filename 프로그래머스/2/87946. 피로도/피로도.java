@@ -1,32 +1,18 @@
-import java.util.*;
-
 class Solution {
-    static int answer;
+    static int answer = 0;
     public int solution(int k, int[][] dungeons) {
-        int length = dungeons.length;
-        permutation(k, new int[length], length, 0, new boolean[length], dungeons);
+        dfs(k,dungeons, 0, new boolean[dungeons.length]);
         return answer;
     }
     
-    private static void permutation(int k, int[] tmp, int length, int index, boolean[] visited, int[][] dungeons) {
-        if(index == length) {
-            int count = 0;
-            for(int x : tmp) {
-                if(k >= dungeons[x][0]) {
-                    k -= dungeons[x][1];
-                    count++;
-                } 
-            }
-            answer = Math.max(answer, count);
-        } else {
-            for(int i=0;i<dungeons.length;i++){
-                if(!visited[i]) {
-                    tmp[index] = i;
-                    visited[i] = true;
-                    permutation(k,tmp,length,index+1,visited,dungeons);
-                    visited[i] = false;
-                }
+    private static void dfs(int tired, int[][] dungeons, int count, boolean[] visited) {
+        for(int i=0;i<dungeons.length;i++){
+            if(!visited[i] && tired >= dungeons[i][0]) {
+                visited[i] = true;
+                dfs(tired - dungeons[i][1], dungeons, count + 1, visited);
+                visited[i] = false;
             }
         }
+        answer = Math.max(answer, count);
     }
 }
